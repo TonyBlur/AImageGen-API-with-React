@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import { DisplayImages } from "./Images";
 import ImageDownloader from "./ImagesDownload";
@@ -8,7 +8,7 @@ function isEnglish(text) {
   return /^[A-Za-z]*$/.test(text);
 }
 
-async function translate(text) {
+async function translate(translatingText) {
   const apiUrl = import.meta.env.VITE_Open_AI_Url_Translate;
   const openaiApiKey = import.meta.env.VITE_Open_AI_Key;
   try {
@@ -23,7 +23,7 @@ async function translate(text) {
         "messages": [
           {
             "role": "system",
-            "content": text,
+            "content": translatingText,
             "name": "Translator",
             "function_call": {}
           }
@@ -45,8 +45,8 @@ async function translate(text) {
         "premium": true
       }),
     });
-    const data = await response.json();
-    return data.translatedText;
+    const data = await response.text();
+    return data;
   } catch (error) {
     console.log(error);
   }
