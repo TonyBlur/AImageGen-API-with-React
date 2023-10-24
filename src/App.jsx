@@ -22,22 +22,14 @@ async function translate(translatingText) {
         "model": "gpt-3.5-turbo",
         "messages": [
           {
-          "role": "string",
+          "role": "assistant",
           "content": translatingText,
-          "name": "string",
-          "function_call": {}
+          "name": "string"
           }
         ],
-        "functions": [
-            "string"
-        ],
-        "function_call": "string",
         "temperature": 0.5,
         "top_p": 1,
         "stream": "false",
-        "stop": [
-            "string"
-        ],
         "max_tokens": 0,
         "presence_penalty": 0,
         "frequency_penalty": 0,
