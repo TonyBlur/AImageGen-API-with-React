@@ -42,7 +42,7 @@ async function translate(translatingText) {
         "presence_penalty": 0,
         "frequency_penalty": 0,
         "logit_bias": {},
-        "premium": false
+        "premium": true
       }),
     });
     const data = await response.text();
