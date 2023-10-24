@@ -24,25 +24,11 @@ async function translate(translatingText) {
           {
             "role": "assistant",
             "content": translatingText,
-            "name": "Translator",
-            "function_call": {}
           }
         ],
-        "functions": [
-          "string"
-        ],
-        "function_call": "string",
         "temperature": 0.5,
         "top_p": 1,
-        "stream": true,
-        "stop": [
-          "string"
-        ],
-        "max_tokens": 8000,
-        "presence_penalty": 0,
-        "frequency_penalty": 0,
-        "logit_bias": {},
-        "premium": true
+        "stream": true
       }),
     });
     const data = await response.text();
