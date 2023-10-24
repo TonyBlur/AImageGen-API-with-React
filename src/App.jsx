@@ -12,32 +12,23 @@ function isEnglish(text) {
 async function translate(text) {
   const apiUrl = import.meta.env.VITE_Open_AI_Url_Translate;
   const openaiApiKey = import.meta.env.VITE_Open_AI_Key;
-  const requestBody = {
-    model: "gpt-3.5-turbo",
-    messages: [
-      {
-        role: "system",
-        content: text
-      }
-    ],
-    functions: [""],
-    function_call: "",
-    temperature: 0.5,
-    top_p: 1,
-    stream: false,
-    stop: [""],
-    max_tokens: 8000,
-    presence_penalty: 0,
-    frequency_penalty: 0,
-    logit_bias: {},
-    premium: true
-  };
-  const response = await axios.post(apiUrl, requestBody, {
-    headers: {
-      'Authorization': `Bearer ${openaiApiKey}`
-    }
-  });
-  return response.data.translatedText;
+  try {
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${openaiApiKey}`,
+      },
+      body: JSON.stringify({
+        model: "gpt-3.5-turbo",
+        prompt: text,
+      }),
+    });
+    const data = await response.json();
+    return data.translatedText;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function App() {
