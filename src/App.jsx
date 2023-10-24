@@ -38,8 +38,8 @@ async function translate(translatingText) {
       }),
     });
     const data = await response.text();
+    console.log(`data: ${data}`);
     const contentdata = data.choices[0].message.content;
-    console.log(data);
     console.log(contentdata);
     return contentdata;
   } catch (error) {
