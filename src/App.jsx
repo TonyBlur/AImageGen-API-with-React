@@ -19,30 +19,30 @@ async function translate(text) {
         Authorization: `Bearer ${openaiApiKey}`,
       },
       body: JSON.stringify({
-        model: "gpt-3.5-turbo",
-        messages: [
+        "model": "gpt-3.5-turbo",
+        "messages": [
           {
-            role: "system",
-            content: text,
-            name: "Translator",
-            function_call: {}
+            "role": "system",
+            "content": text,
+            "name": "Translator",
+            "function_call": {}
           }
         ],
-        functions: [
+        "functions": [
           "string"
         ],
-        function_call: "string",
-        temperature: 0.5,
-        top_p: 1,
-        stream: false,
-        stop: [
+        "function_call": "string",
+        "temperature": 0.5,
+        "top_p": 1,
+        "stream": false,
+        "stop": [
           "string"
         ],
-        max_tokens: 8000,
-        presence_penalty: 0,
-        frequency_penalty: 0,
-        logit_bias: {},
-        premium: true
+        "max_tokens": 8000,
+        "presence_penalty": 0,
+        "frequency_penalty": 0,
+        "logit_bias": {},
+        "premium": true
       }),
     });
     const data = await response.json();
@@ -50,6 +50,21 @@ async function translate(text) {
   } catch (error) {
     console.log(error);
   }
+}
+
+async function handleButtonClick() {
+  // Get the input text
+  const text = prompt;
+
+  // Check if the text is English
+  if (!isEnglish(text)) {
+    // If the text is not English, translate it
+    const translatedText = await translate(`translate below text to English, and reply the translated text only: ${text}`);
+    setPrompt(translatedText);
+  }
+
+  // Call the generateImage function
+  generateImage();
 }
 
 function App() {
@@ -163,17 +178,7 @@ function App() {
           <textarea
             className="app-input"
             placeholder={placeholder}
-            //onChange={(e) => setPrompt(e.target.value)}
-            //Add for translation
-            onChange={async (e) => {
-              const newPrompt = e.target.value;
-              if (!isEnglish(newPrompt)) {
-                const translatedText = await translate(`translate below text to English, and reply the translated text only: ${newPrompt}`);
-                setPrompt(translatedText);
-              } else {
-                setPrompt(newPrompt);
-              }
-            }}
+            onChange={(e) => setPrompt(e.target.value)}
             rows="10"
             cols="40"
             autoFocus
@@ -189,7 +194,7 @@ function App() {
           <span>{quantity}</span>
 
           <br />
-          <button onClick={generateImage} id="generate">
+          <button onClick={handleButtonClick} id="generate">
             Generate Images
           </button>
           <DisplayImages />
