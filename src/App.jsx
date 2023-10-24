@@ -30,7 +30,7 @@ async function translate(translatingText) {
         "temperature": 0.5,
         "top_p": 1,
         "stream": "false",
-        "max_tokens": 0,
+        "max_tokens": 8000,
         "presence_penalty": 0,
         "frequency_penalty": 0,
         "logit_bias": {},
