@@ -16,19 +16,33 @@ async function translate(translatingText) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${openaiApiKey}`,
+        "Authorization": `Bearer ${openaiApiKey}`,
       },
       body: JSON.stringify({
         "model": "gpt-3.5-turbo",
         "messages": [
           {
-            "role": "assistant",
-            "content": translatingText,
+          "role": "string",
+          "content": translatingText,
+          "name": "string",
+          "function_call": {}
           }
         ],
+        "functions": [
+            "string"
+        ],
+        "function_call": "string",
         "temperature": 0.5,
         "top_p": 1,
-        "stream": true
+        "stream": "false",
+        "stop": [
+            "string"
+        ],
+        "max_tokens": 0,
+        "presence_penalty": 0,
+        "frequency_penalty": 0,
+        "logit_bias": {},
+        "premium": "true"
       }),
     });
     const data = await response.text();
