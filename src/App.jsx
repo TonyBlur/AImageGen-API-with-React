@@ -115,6 +115,7 @@ function App() {
     if (!isEnglish(text)) {
       // If the text is not English, translate it
       const translatedText = await translate(`translate below text to English, and reply the translated text only: ${text}`);
+      console.log(translatedText);
       setPrompt(translatedText);
     }
     
