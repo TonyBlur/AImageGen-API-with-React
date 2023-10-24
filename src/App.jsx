@@ -3,6 +3,24 @@ import "./App.css";
 import { DisplayImages } from "./Images";
 import ImageDownloader from "./ImagesDownload";
 
+function App() {
+  const [requestErrorMessage, setRequestErrorMessage] = useState(null);
+  const [requestError, setRequestError] = useState(false);
+  const [prompt, setPrompt] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [placeholder, setPlaceholder] = useState("Search Bears with Paint Brushes the Starry Night, painted by Vincent Van Gogh...");
+  const [quantity, setQuantity] = useState(5);
+  const [imageSize, setImageSize] = useState("1024x1024");
+  const [model, setModel] = useState("sdxl");
+  const [maxQuantity, setMaxQuantity] = useState(5);
+
+  const generateImage = async () => {
+    setRequestError(false);
+    setImageSize(imageSize);
+    setPlaceholder(`Search ${prompt}...`);
+    setPrompt(prompt);
+    setLoading(true);
+
 //Add for translation
 function isEnglish(text) {
   return /^[A-Za-z]*$/.test(text);
@@ -55,7 +73,7 @@ async function translate(text) {
 async function handleButtonClick() {
   // Get the input text
   const text = prompt;
-
+  
   // Check if the text is English
   if (!isEnglish(text)) {
     // If the text is not English, translate it
@@ -66,24 +84,6 @@ async function handleButtonClick() {
   // Call the generateImage function
   generateImage();
 }
-
-function App() {
-  const [requestErrorMessage, setRequestErrorMessage] = useState(null);
-  const [requestError, setRequestError] = useState(false);
-  const [prompt, setPrompt] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [placeholder, setPlaceholder] = useState("Search Bears with Paint Brushes the Starry Night, painted by Vincent Van Gogh...");
-  const [quantity, setQuantity] = useState(5);
-  const [imageSize, setImageSize] = useState("1024x1024");
-  const [model, setModel] = useState("sdxl");
-  const [maxQuantity, setMaxQuantity] = useState(5);
-
-  const generateImage = async () => {
-    setRequestError(false);
-    setImageSize(imageSize);
-    setPlaceholder(`Search ${prompt}...`);
-    setPrompt(prompt);
-    setLoading(true);
 
     const apiUrl = import.meta.env.VITE_Open_AI_Url;
     const openaiApiKey = import.meta.env.VITE_Open_AI_Key;
