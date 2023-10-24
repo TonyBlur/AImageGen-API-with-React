@@ -10,7 +10,7 @@
 .alert {
   border-radius: 10px;
   padding: 10px;
-  background-color: #646cff;
+  background-color: #92adda;
   color: white;
   transition: opacity 0.6s; /* 600ms to fade out */
 }
@@ -41,7 +41,7 @@ span {
 button:hover,
 .select-container select:hover,
 span:hover {
-  border-color: #646cff;
+  border-color: #92adda;
 }
 
 button:focus,
