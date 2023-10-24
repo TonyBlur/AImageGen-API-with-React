@@ -1,2 +1,4 @@
 <h1 align="center">AImageGen</h1>
-an artificial intelligence service that can generate realistic images from text descriptions. 
+An artificial intelligence website generates images from text descriptions.
+
+## Deploy on Vercel
