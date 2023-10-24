@@ -22,7 +22,7 @@ async function translate(translatingText) {
         "model": "gpt-3.5-turbo",
         "messages": [
           {
-            "role": "system",
+            "role": "assistant",
             "content": translatingText,
             "name": "Translator",
             "function_call": {}
