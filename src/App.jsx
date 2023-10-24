@@ -34,7 +34,7 @@ async function translate(translatingText) {
         "function_call": "string",
         "temperature": 0.5,
         "top_p": 1,
-        "stream": false,
+        "stream": true,
         "stop": [
           "string"
         ],
