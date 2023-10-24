@@ -2,7 +2,6 @@ import React, { useState,useEffect } from "react";
 import "./App.css";
 import { DisplayImages } from "./Images";
 import ImageDownloader from "./ImagesDownload";
-import axios from 'axios';
 
 //Add for translation
 function isEnglish(text) {
@@ -21,7 +20,29 @@ async function translate(text) {
       },
       body: JSON.stringify({
         model: "gpt-3.5-turbo",
-        prompt: text,
+        messages: [
+          {
+            role: "system",
+            content: text,
+            name: "Translator",
+            function_call: {}
+          }
+        ],
+        functions: [
+          "string"
+        ],
+        function_call: "string",
+        temperature: 0.5,
+        top_p: 1,
+        stream: false,
+        stop: [
+          "string"
+        ],
+        max_tokens: 8000,
+        presence_penalty: 0,
+        frequency_penalty: 0,
+        logit_bias: {},
+        premium: true
       }),
     });
     const data = await response.json();
