@@ -51,20 +51,6 @@ function App() {
   const [model, setModel] = useState("sdxl");
   const [maxQuantity, setMaxQuantity] = useState(5);
 
-  //Add for translation
-  useEffect(() => {
-    async function translatePrompt() {
-      if (!isEnglish(myPrompt)) {
-        const translatedText = await translate(`translate below text to English: ${myPrompt}`);
-        setPrompt(translatedText);
-      } else {
-        setPrompt(myPrompt);
-      }
-    }
-  
-    translatePrompt();
-  }, []);
-
   const generateImage = async () => {
     setRequestError(false);
     setImageSize(imageSize);
