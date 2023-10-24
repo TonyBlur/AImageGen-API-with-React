@@ -12,6 +12,7 @@ async function translate(translatingText) {
   const apiUrl = import.meta.env.VITE_Open_AI_Url_Translate;
   const openaiApiKey = import.meta.env.VITE_Open_AI_Key;
   try {
+    contentdata = '';
     const response = await fetch(apiUrl, {
       method: "POST",
       headers: {
@@ -39,13 +40,9 @@ async function translate(translatingText) {
     });
     const data = await response.text();
     console.log(`data: ${data}`);
-    try {
       let contentdata = data.choices[0].message.content;
       console.log(contentdata);
       return contentdata;
-    } catch (error) {
-      console.log(error);
-    }
   } catch (error) {
     console.log(error);
   }
