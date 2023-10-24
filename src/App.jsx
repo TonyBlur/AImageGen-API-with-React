@@ -40,7 +40,7 @@ async function translate(translatingText) {
     });
     const data = await response.text();
     console.log(`data: ${data}`);
-      let contentdata = data.choices[0].message.content;
+      let contentdata = data.choices.message.content;
       console.log(contentdata);
       return contentdata;
   } catch (error) {
