@@ -2,6 +2,43 @@ import React, { useState } from "react";
 import "./App.css";
 import { DisplayImages } from "./Images";
 import ImageDownloader from "./ImagesDownload";
+import axios from 'axios';
+
+//Add for translation
+function isEnglish(text) {
+  return /^[A-Za-z]*$/.test(text);
+}
+
+async function translate(text) {
+  const apiUrl = import.meta.env.VITE_Open_AI_Url_Translate;
+  const openaiApiKey = import.meta.env.VITE_Open_AI_Key;
+  const requestBody = {
+    model: "gpt-3.5-turbo",
+    messages: [
+      {
+        role: "system",
+        content: text
+      }
+    ],
+    functions: [""],
+    function_call: "",
+    temperature: 0.5,
+    top_p: 1,
+    stream: false,
+    stop: [""],
+    max_tokens: 8000,
+    presence_penalty: 0,
+    frequency_penalty: 0,
+    logit_bias: {},
+    premium: true
+  };
+  const response = await axios.post(apiUrl, requestBody, {
+    headers: {
+      'Authorization': `Bearer ${openaiApiKey}`
+    }
+  });
+  return response.data.translatedText;
+}
 
 function App() {
   const [requestErrorMessage, setRequestErrorMessage] = useState(null);
@@ -13,6 +50,20 @@ function App() {
   const [imageSize, setImageSize] = useState("1024x1024");
   const [model, setModel] = useState("sdxl");
   const [maxQuantity, setMaxQuantity] = useState(5);
+
+  //Add for translation
+  useEffect(() => {
+    async function translatePrompt() {
+      if (!isEnglish(myPrompt)) {
+        const translatedText = await translate(`translate below text to English: ${myPrompt}`);
+        setPrompt(translatedText);
+      } else {
+        setPrompt(myPrompt);
+      }
+    }
+  
+    translatePrompt();
+  }, []);
 
   const generateImage = async () => {
     setRequestError(false);
@@ -114,7 +165,17 @@ function App() {
           <textarea
             className="app-input"
             placeholder={placeholder}
-            onChange={(e) => setPrompt(e.target.value)}
+            //onChange={(e) => setPrompt(e.target.value)}
+            //Add for translation
+            onChange={async (e) => {
+              const newPrompt = e.target.value;
+              if (!isEnglish(newPrompt)) {
+                const translatedText = await translate(`translate below text to English, and reply the translated text only: ${newPrompt}`);
+                setPrompt(translatedText);
+              } else {
+                setPrompt(newPrompt);
+              }
+            }}
             rows="10"
             cols="40"
             autoFocus
