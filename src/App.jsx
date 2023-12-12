@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import { DisplayImages } from "./Images";
 import ImageDownloader from "./ImagesDownload";
@@ -106,11 +106,6 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    // Call the generateImage function
-    generateImage();
-  }, [prompt]);
-
   async function handleButtonClick() {
     // Get the input text
     const text = prompt;
@@ -120,6 +115,9 @@ function App() {
       const translatedText = await translate(`translate below text to English, and reply the translated text only: ${text}`);
       console.log(translatedText);
       setPrompt(translatedText);
+
+      // Call the generateImage function after setting the prompt
+      generateImage();
     } catch (error) {
       console.error('Error during translation:', error);
     }
