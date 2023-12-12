@@ -77,6 +77,8 @@ span:focus {
 }
 
 .app-input {
+  min-width: 256px;
+  min-height: 36px;
   border-radius: 10px;
 }
 

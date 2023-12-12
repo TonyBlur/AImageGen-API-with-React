@@ -16,7 +16,7 @@ async function translate(translatingText) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${openaiApiKey}`,
+        Authorization: `Bearer ${openaiApiKey}`,
       },
       body: JSON.stringify({
         "model": "gpt-3.5-turbo",
@@ -39,7 +39,7 @@ async function translate(translatingText) {
     });
     const data = await response.text();
     console.log(`data: ${data}`);
-    let contentdata = await i.choices[0].message.content;
+    let contentdata = await data.choices[0].message.content;
     console.log(contentdata);
     return contentdata;
   } catch (error) {
@@ -112,11 +112,12 @@ function App() {
     const text = prompt;
       
     // Check if the text is English
-    if (!isEnglish(text)) {
-      // If the text is not English, translate it
+    try {
       const translatedText = await translate(`translate below text to English, and reply the translated text only: ${text}`);
       console.log(translatedText);
       setPrompt(translatedText);
+    } catch (error) {
+      console.error('Error during translation:', error);
     }
     
     // Call the generateImage function
