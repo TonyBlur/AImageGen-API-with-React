@@ -56,6 +56,7 @@ function App() {
   const [imageSize, setImageSize] = useState("1024x1024");
   const [model, setModel] = useState("sdxl");
   const [maxQuantity, setMaxQuantity] = useState(5);
+  const [buttonClicked, setButtonClicked] = useState(false);
 
   const generateImage = async () => {
     setRequestError(false);
@@ -107,11 +108,13 @@ function App() {
   };
 
   useEffect(() => {
-    if (prompt !== '') {
+    if (buttonClicked) {
       // Call the generateImage function
       generateImage();
+      // Reset buttonClicked state
+      setButtonClicked(false);
     }
-  }, [prompt]);
+  }, [buttonClicked]);
 
   async function handleButtonClick() {
     // Get the input text
@@ -122,6 +125,8 @@ function App() {
       const translatedText = await translate(`translate below text to English, and reply the translated text only: ${text}`);
       console.log(translatedText);
       setPrompt(translatedText);
+      // Set buttonClicked state to true
+      setButtonClicked(true);
     } catch (error) {
       console.error('Error during translation:', error);
     }
