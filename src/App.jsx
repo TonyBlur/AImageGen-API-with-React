@@ -142,7 +142,7 @@ function App() {
       "stable-diffusion-1.5": 10,
       "deepfloyd-if": 4,
       "material-diffusion": 8,
-      "dall-e": 10,
+      "midjourney": 4,
     };
     setQuantity(Math.min(quantity, modelMaxImages[e.target.value]));
     setMaxQuantity(modelMaxImages[e.target.value]);
@@ -174,7 +174,7 @@ function App() {
               <option value="stable-diffusion-1.5">Stable Diffusion 1.5</option>
               <option value="deepfloyd-if">Deepfloyd IF</option>
               <option value="material-diffusion">Material Diffusion</option>
-              <option value="dall-e">DALL-E</option>        
+              <option value="midjourney">Midjourney</option>        
             </select>
 
             <ImageDownloader />
