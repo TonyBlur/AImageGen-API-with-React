@@ -38,7 +38,6 @@ async function translate(translatingText) {
       }),
     });
     const data = await response.json();
-    console.log(`data: ${data}`);
     let contentdata = data.choices[0].message.content;
     console.log(contentdata);
     return contentdata;
@@ -107,6 +106,11 @@ function App() {
     }
   };
 
+  useEffect(() => {
+    // Call the generateImage function
+    generateImage();
+  }, [prompt]);
+
   async function handleButtonClick() {
     // Get the input text
     const text = prompt;
@@ -119,10 +123,7 @@ function App() {
     } catch (error) {
       console.error('Error during translation:', error);
     }
-    
-    // Call the generateImage function
-    generateImage();
-    }
+  }
 
   const handleModelSelect = (e) => {
     setModel(e.target.value);
