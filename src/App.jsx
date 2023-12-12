@@ -37,9 +37,9 @@ async function translate(translatingText) {
         "premium": "true"
       }),
     });
-    const data = await response.text();
+    const data = await response.json();
     console.log(`data: ${data}`);
-    let contentdata = await data.choices[0].message.content;
+    let contentdata = data.choices[0].message.content;
     console.log(contentdata);
     return contentdata;
   } catch (error) {
