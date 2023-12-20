@@ -91,3 +91,14 @@ span:focus {
 .select-container select {
   margin-right: 10px; /* Adjust the margin as needed */
 }
+
+@media (max-width: 700px) {
+  .select-container .select-wrapper {
+    display: block;
+    width: 100%;
+  }
+
+  .select-container select {
+    margin: 10px;
+  }
+}

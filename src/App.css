@@ -95,18 +95,6 @@ h2 {
   transition: border-color 0.25s;
 }
 
-@media (max-width: 700px) {
-  .select-container .select-wrapper {
-    display: block;
-    width: 100%;
-    white-space: normal; /* Add this line to allow line breaks */
-  }
-
-  .select-container select {
-    margin: 10px;
-  }
-}
-
 .select-container select:hover {
   border-color: #646cff;
 }
