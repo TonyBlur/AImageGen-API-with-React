@@ -93,12 +93,8 @@ span:focus {
 }
 
 @media (max-width: 700px) {
-  .select-container .select-wrapper {
+  .image-downloader {
     display: block;
     width: 100%;
-  }
-
-  .select-container select {
-    margin: 10px;
   }
 }
