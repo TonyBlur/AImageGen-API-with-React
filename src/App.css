@@ -99,6 +99,7 @@ h2 {
   .select-container .select-wrapper {
     display: block;
     width: 100%;
+    white-space: normal; /* Add this line to allow line breaks */
   }
 
   .select-container select {
