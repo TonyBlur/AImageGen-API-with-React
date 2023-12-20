@@ -9,8 +9,8 @@ function isEnglish(text) {
 }
 
 async function translate(translatingText) {
-  const apiUrl = import.meta.env.VITE_Open_AI_Url_Translate;
-  const openaiApiKey = import.meta.env.VITE_Open_AI_Key;
+  const apiUrl = `${import.meta.env.VITE_OPEN_AI_BASE}/v1/chat/completions`;
+  const openaiApiKey = import.meta.env.VITE_OPEN_AI_KEY;
   try {
     const response = await fetch(apiUrl, {
       method: "POST",
@@ -54,19 +54,38 @@ function App() {
   const [placeholder, setPlaceholder] = useState("Search Bears with Paint Brushes the Starry Night, painted by Vincent Van Gogh...");
   const [quantity, setQuantity] = useState(5);
   const [imageSize, setImageSize] = useState("1024x1024");
+  const [selectedImageSize, setSelectedImageSize] = useState(imageSize);
   const [model, setModel] = useState("sdxl");
   const [maxQuantity, setMaxQuantity] = useState(5);
   const [buttonClicked, setButtonClicked] = useState(false);
 
+  const [imageModels, setImageModels] = useState([]);
+
+  useEffect(() => {
+    const fetchImageModels = async () => {
+      const apiUrl = `${import.meta.env.VITE_OPEN_AI_BASE}/v1/models`;
+      try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        const imageModels = data.data.filter((model) => model.max_images);
+        setImageModels(imageModels);
+      } catch (error) {
+        console.error("Error fetching image models:", error);
+      }
+    };
+
+    fetchImageModels();
+  }, []);
+
   const generateImage = async () => {
     setRequestError(false);
-    setImageSize(imageSize);
+    setImageSize(selectedImageSize);
     setPlaceholder(`Search ${prompt}...`);
     setPrompt(prompt);
     setLoading(true);
 
-    const apiUrl = import.meta.env.VITE_Open_AI_Url;
-    const openaiApiKey = import.meta.env.VITE_Open_AI_Key;
+    const apiUrl = `${import.meta.env.VITE_OPEN_AI_BASE}/v1/images/generations`;
+    const openaiApiKey = import.meta.env.VITE_OPEN_AI_KEY;
     try {
       const response = await fetch(apiUrl, {
         method: "POST",
@@ -84,11 +103,8 @@ function App() {
 
       if (!response.ok) {
         setRequestError(true);
-        try {
-          setRequestErrorMessage(await JSON.parse(response.text()).error);
-        } catch (e) {
-          setRequestErrorMessage(await response.text());
-        }
+        const errorMessage = await response.json();
+        setRequestErrorMessage(await errorMessage.error.message);
       }
 
       const data = await response.json();
@@ -133,19 +149,14 @@ function App() {
   }
 
   const handleModelSelect = (e) => {
-    setModel(e.target.value);
-    const modelMaxImages = {
-      "kandinsky-2.2": 10,
-      "kandinsky-2": 10,
-      sdxl: 5,
-      "stable-diffusion-2.1": 10,
-      "stable-diffusion-1.5": 10,
-      "deepfloyd-if": 4,
-      "material-diffusion": 8,
-      "midjourney": 4,
-    };
-    setQuantity(Math.min(quantity, modelMaxImages[e.target.value]));
-    setMaxQuantity(modelMaxImages[e.target.value]);
+    const selectedModelId = e.target.value;
+    const selectedModel = imageModels.find((model) => model.id === selectedModelId);
+    setModel(selectedModelId);
+
+    if (selectedModel) {
+      setMaxQuantity(selectedModel.max_images);
+    }
+    setQuantity(Math.min(quantity, maxQuantity));
   };
 
   return (
@@ -167,14 +178,16 @@ function App() {
           <h2>Generate Images using Different AI Models</h2>
           <div className="select-container">
             <select value={model} onChange={handleModelSelect}>
-              <option value="kandinsky-2.2">Kandinsky 2.2</option>
-              <option value="kandinsky-2">Kandinsky 2</option>
-              <option value="sdxl">SDXL</option>
-              <option value="stable-diffusion-2.1">Stable Diffusion 2.1</option>
-              <option value="stable-diffusion-1.5">Stable Diffusion 1.5</option>
-              <option value="deepfloyd-if">Deepfloyd IF</option>
-              <option value="material-diffusion">Material Diffusion</option>
-              <option value="midjourney">Midjourney</option>        
+            {imageModels.map((imageModel) => (
+                <option key={imageModel.id} value={imageModel.id}>
+                  {imageModel.id}
+                </option>
+              ))}
+            </select>
+            <select value={selectedImageSize} onChange={(e) => setSelectedImageSize(e.target.value)}>
+              <option value="1024x1024">Square(1:1) - 1024x1024</option>
+              <option value="1920x1080">Landscape(16:9) - 1920x1080</option>
+              <option value="1080x1920">Portrait(9:16) - 1080x1920</option>
             </select>
 
             <ImageDownloader />
