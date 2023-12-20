@@ -42,7 +42,7 @@ class ImageDownloader extends React.Component {
 
   render() {
     return (
-      <div className="image-downloader">
+      <div>
         <button onClick={this.handleDownloadClick}>Download All as Zip</button>
       </div>
     );
