@@ -54,7 +54,6 @@ function App() {
   const [placeholder, setPlaceholder] = useState("Search Bears with Paint Brushes the Starry Night, painted by Vincent Van Gogh...");
   const [quantity, setQuantity] = useState(5);
   const [imageSize, setImageSize] = useState("1024x1024");
-  const [selectedImageSize, setSelectedImageSize] = useState(imageSize);
   const [model, setModel] = useState("sdxl");
   const [maxQuantity, setMaxQuantity] = useState(5);
   const [buttonClicked, setButtonClicked] = useState(false);
@@ -79,7 +78,7 @@ function App() {
 
   const generateImage = async () => {
     setRequestError(false);
-    setImageSize(selectedImageSize);
+    setImageSize(imageSize);
     setPlaceholder(`Search ${prompt}...`);
     setPrompt(prompt);
     setLoading(true);
@@ -184,7 +183,7 @@ function App() {
                 </option>
               ))}
             </select>
-            <select value={selectedImageSize} onChange={(e) => setSelectedImageSize(e.target.value)}>
+            <select value={imageSize} onChange={(e) => setImageSize(e.target.value)}>
               <option value="1024x1024">Square(1:1) - 1024x1024</option>
               <option value="1920x1080">Landscape(16:9) - 1920x1080</option>
               <option value="1080x1920">Portrait(9:16) - 1080x1920</option>
