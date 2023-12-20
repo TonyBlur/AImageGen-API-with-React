@@ -176,18 +176,22 @@ function App() {
 
           <h2>Generate Images using Different AI Models</h2>
           <div className="select-container">
-            <select value={model} onChange={handleModelSelect}>
-            {imageModels.map((imageModel) => (
-                <option key={imageModel.id} value={imageModel.id}>
-                  {imageModel.id}
-                </option>
-              ))}
-            </select>
-            <select value={imageSize} onChange={(e) => setImageSize(e.target.value)}>
-              <option value="1024x1024">Square(1:1) - 1024x1024</option>
-              <option value="1920x1080">Landscape(16:9) - 1920x1080</option>
-              <option value="1080x1920">Portrait(9:16) - 1080x1920</option>
-            </select>
+            <div class="select-wrapper">
+              <select value={model} onChange={handleModelSelect}>
+              {imageModels.map((imageModel) => (
+                  <option key={imageModel.id} value={imageModel.id}>
+                    {imageModel.id}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div class="select-wrapper">
+              <select value={imageSize} onChange={(e) => setImageSize(e.target.value)}>
+                <option value="1024x1024">Square(1:1) - 1024x1024</option>
+                <option value="1920x1080">Landscape(16:9) - 1920x1080</option>
+                <option value="1080x1920">Portrait(9:16) - 1080x1920</option>
+              </select>
+            </div>
 
             <ImageDownloader />
           </div>
