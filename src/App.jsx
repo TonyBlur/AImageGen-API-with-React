@@ -3,7 +3,7 @@ import "./App.css";
 import { DisplayImages } from "./Images";
 import ImageDownloader from "./ImagesDownload";
 
-//Add for translation
+// Detect language for prompt translation
 function isEnglish(text) {
   return /^[A-Za-z]*$/.test(text);
 }
