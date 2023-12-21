@@ -1,0 +1,24 @@
+{
+  "background_color": "#000000",
+  "description": "Unleash the boundless wonders of AI-generated images with our captivating and awe-inspiring Image Generator. Explore a world of artistic possibilities and immerse yourself in the mesmerizing creations brought to life through AI, available to you for free.",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "tblu AImageGen",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "tblu aimage",
+  "start_url": "/",
+  "theme_color": "#000000",
+  "categories": [
+    "productivity",
+    "utilities"
+  ],
+  "screenshots": [],
+  "icons": [
+    {
+      "src": "./AImageGen-Icon-512x512.svg",
+      "type": "image/svg+xml",
+      "sizes": "512x512"
+    }
+  ]
+}
