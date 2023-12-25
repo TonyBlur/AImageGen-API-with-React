@@ -96,7 +96,8 @@ function App() {
           model: model,
           prompt: prompt,
           n: quantity,
-          size: imageSize,
+          width: imageSize.split("x")[0],
+          height: imageSize.split("x")[1],
         }),
       });
 
@@ -187,6 +188,8 @@ function App() {
               <option value="1024x1024">Square(1:1) - 1024x1024</option>
               <option value="1920x1080">Landscape(16:9) - 1920x1080</option>
               <option value="1080x1920">Portrait(9:16) - 1080x1920</option>
+              <option value="1024x768">Landscape(4:3) - 1024x768</option>
+              <option value="768x1024">Portrait(3:4) - 768x1024</option>
             </select>
 
             <ImageDownloader />
