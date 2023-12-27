@@ -5,7 +5,7 @@ import ImageDownloader from "./ImagesDownload";
 
 // Detect language for prompt translation
 function isEnglish(text) {
-  return /^[A-Za-z]*$/.test(text);
+  return /^[A-Za-z\s.,!?]*$/.test(text);
 }
 
 async function translate(translatingText) {
@@ -39,7 +39,6 @@ async function translate(translatingText) {
     });
     const data = await response.json();
     let contentdata = data.choices[0].message.content;
-    console.log(contentdata);
     return contentdata;
   } catch (error) {
     console.log(error);
@@ -137,14 +136,18 @@ function App() {
     const text = prompt;
       
     // Check if the text is English
-    try {
-      const translatedText = await translate(`translate below text to English, and reply the translated text only: ${text}`);
-      console.log(translatedText);
-      setPrompt(translatedText);
-      // Set buttonClicked state to true
+    if (isEnglish(text)) {
+      // If the text is English, call the generateImage function
       setButtonClicked(true);
-    } catch (error) {
-      console.error('Error during translation:', error);
+    } else {
+      try {
+        const translatedText = await translate(`translate below text to English, and reply the translated text only: ${text}`);
+        setPrompt(translatedText);
+        // Set buttonClicked state to true
+        setButtonClicked(true);
+      } catch (error) {
+        console.error('Error during translation:', error);
+      }
     }
   }
 
