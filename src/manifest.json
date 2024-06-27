@@ -3,10 +3,10 @@
   "description": "Unleash the boundless wonders of AI-generated images with our captivating and awe-inspiring Image Generator. Explore a world of artistic possibilities and immerse yourself in the mesmerizing creations brought to life through AI, available to you for free.",
   "dir": "ltr",
   "display": "standalone",
-  "name": "tblu AImageGen",
+  "name": "tblu AI ImageGen",
   "orientation": "any",
   "scope": "/",
-  "short_name": "tblu aimage",
+  "short_name": "aimage",
   "start_url": "/",
   "theme_color": "#000000",
   "categories": [
