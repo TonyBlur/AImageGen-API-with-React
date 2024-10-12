@@ -19,7 +19,8 @@ h2 {
 }
 
 .app-input {
-  height: 35px;
+  width: 50vw;
+  height: 4rem;
   margin: 20px;
   border: 2px solid white;
   padding: 10px;
