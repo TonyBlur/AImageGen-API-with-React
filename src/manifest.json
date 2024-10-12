@@ -16,9 +16,9 @@
   "screenshots": [],
   "icons": [
     {
-      "src": "./AImageGen-Icon-512x512.png",
+      "src": "./AImageGen-Icon-96x96.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "96x96"
     }
   ]
 }
