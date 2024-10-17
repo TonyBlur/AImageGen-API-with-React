@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./App.css";
-import { DisplayImages } from "./Images";
+import { DisplayImages } from "./DisplayImages.jsx";
 import ImageDownloader from "./ImagesDownload";
+import { fetchImageModels, generateImage } from "./Api.js";
 
 // Detect language for prompt translation
 function isEnglish(text) {
@@ -50,82 +51,54 @@ function App() {
   const [requestError, setRequestError] = useState(false);
   const [prompt, setPrompt] = useState("");
   const [loading, setLoading] = useState(false);
-  const [placeholder, setPlaceholder] = useState("Search Bears with Paint Brushes the Starry Night, painted by Vincent Van Gogh...");
+  const [placeholder, setPlaceholder] = useState("Generate: Bears with Paint Brushes the Starry Night, painted by Vincent Van Gogh...");
   const [quantity, setQuantity] = useState(5);
-  const [imageSize, setImageSize] = useState("1024x1024");
   const [model, setModel] = useState("sdxl");
   const [maxQuantity, setMaxQuantity] = useState(5);
+  const [imageSize, setImageSize] = useState("1024x1024");
   const [buttonClicked, setButtonClicked] = useState(false);
-
   const [imageModels, setImageModels] = useState([]);
 
   useEffect(() => {
-    const fetchImageModels = async () => {
-      const apiUrl = `${import.meta.env.VITE_OPEN_AI_BASE}/v1/models`;
-      try {
-        const response = await fetch(apiUrl);
-        const data = await response.json();
-        const imageModels = data.data.filter((model) => model.max_images);
+    const fetchModels = async () => {
+      const imageModels = await fetchImageModels();
+      if (imageModels.length <= 0) {
+        console.error("No image models found.");
+      } else {
         setImageModels(imageModels);
-      } catch (error) {
-        console.error("Error fetching image models:", error);
       }
     };
 
-    fetchImageModels();
+    fetchModels();
   }, []);
 
-  const generateImage = async () => {
+  const handleGenerateImage = useCallback(async () => {
     setRequestError(false);
     setImageSize(imageSize);
-    setPlaceholder(`Search ${prompt}...`);
+    setPlaceholder(`Generate: ${prompt}...`);
     setPrompt(prompt);
     setLoading(true);
 
-    const apiUrl = `${import.meta.env.VITE_OPEN_AI_BASE}/v1/images/generations`;
-    const openaiApiKey = import.meta.env.VITE_OPEN_AI_KEY;
-    try {
-      const response = await fetch(apiUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${openaiApiKey}`,
-        },
-        body: JSON.stringify({
-          model: model,
-          prompt: prompt,
-          n: quantity,
-          width: imageSize.split("x")[0],
-          height: imageSize.split("x")[1],
-        }),
-      });
+    const response = await generateImage(model, prompt, quantity, imageSize);
+    const data = await response.json();
 
-      if (!response.ok) {
-        setRequestError(true);
-        const errorMessage = await response.json();
-        setRequestErrorMessage(await errorMessage.error.message);
-      }
-
-      const data = await response.json();
-
-      setLoading(false);
-
+    if (!response.ok) {
+      setRequestError(true);
+      setRequestErrorMessage(response.statusText);
+    } else {
       const existingLinks = JSON.parse(localStorage.getItem("imageLinks")) || [];
-
-      const newLinks = data.data.map((image) => image.url);
+      const newLinks = data.data.map((image) => image.url.split("?")[0]);
       const allLinks = [...newLinks, ...existingLinks];
-
       localStorage.setItem("imageLinks", JSON.stringify(allLinks));
-    } catch (error) {
-      setLoading(false);
-      console.log(error);
     }
-  };
+
+    setLoading(false);
+  }, [model, prompt, quantity, imageSize]);
 
   useEffect(() => {
     if (buttonClicked) {
-      // Call the generateImage function
-      generateImage();
+      // Call the handleGenerateImage function
+      handleGenerateImage();
       // Reset buttonClicked state
       setButtonClicked(false);
     }
@@ -178,7 +151,7 @@ function App() {
         <>
           {requestError ? <div className="alert">{requestErrorMessage}</div> : null}
 
-          <h2>Generate Images using Different AI Models</h2>
+          <h2>AI Image Generator</h2>
           <div className="select-container">
             <select value={model} onChange={handleModelSelect}>
             {imageModels.map((imageModel) => (
