@@ -20,7 +20,7 @@ export function ImageCard({ link: imageSrc, onDelete }) {
   };
 
   const handleDownload = async () => {
-    const corsProxy = "https://cors-anywhere-6iul.onrender.com/";
+    const corsProxy = "https://corsproxy.io/?";
     const response = await fetch(corsProxy + imageSrc);
     const blob = await response.blob();
     const url = URL.createObjectURL(blob);
